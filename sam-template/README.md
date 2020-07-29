@@ -1,13 +1,11 @@
-# Hello World Lambda Java
+# Template SAM pour la création from scratch de fonctions AWS Lambda 
 
-This is a "sam init" template to generate a "Hello World" AWS Lambda function, implemented in Java.
+Ceci est un template SAM pour la génération du squelette d'une fonction AWS Lambda en Java.
 
-For details on installing the SAM CLI, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html
+Pour des détails sur SAM CLI, voir https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html
 
-To generate a project using this template, run:
+Pour générer un nouveau projet à base de ce template exécutez la commande suivante:
 
 ```
-$ sam init --location gh:symphoniacloud/sam-init-HelloWorldLambdaJava
+$ sam init --location https://github.com/nicolasduminil/aws-lambda
 ```
-
-This is an alternative to the similar project at https://github.com/symphoniacloud/sam-init-HelloWorldLambdaJava-zip . This version produces an artifact in an "Uberjar" format. "Uberjars" are more simple to package and better for when you just get started, however we recommend the ZIP version for production usage.
