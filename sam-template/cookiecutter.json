@@ -1,0 +1,7 @@
+
+{
+  "project_name": "chapter2-function",
+  "java_package_name" : "fr.simplex_software.aws.lambda.functions",
+  "java_class_name" : "Chapter2Function",
+  "java_handler_method_name" : "handleRequest"
+}
