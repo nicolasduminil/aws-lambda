@@ -1,30 +1,28 @@
-# chapter3
+# Chapitre 3
 
-Ceci est un template CookieCutter pour la création et le déploiement d'une fonction AWS Lambda en Java.
-
-## Conditions préalables
-
-* Vous devez être en possession d'un compte AWS valide ainsi que d'un compartiment S3 pour le stockage temporaire des artefacts à deployer
-* Vous devez avoir installé AWS CLI, Maven et SAM CLI dans votre environnement de développement
-* Votre environnement doit être configuré avec la paire de clés de sécurité AWS
+Ce projet présente quelques scénarios de base de fonctions AWS Lambda en Java
 
 ## Utilisation
 
 Pour compiler:
 
 ```
-$ mvn package
+$ mvn clean package
 ```
 
-Pour déployer:
+Pour déployer et exécuter:
 
 ```
-$ sam deploy --s3-bucket <nom-compartiment-S3> --stack-name chapter3 --capabilities CAPABILITY_IAM
+$ ./deploy.sh
 ```
 
-Pour tester:
+Allez dans la console CloudWatch et vérifiez vos groupes de journalisations 
+(https://eu-west-3.console.aws.amazon.com/cloudwatch/home?region=eu-west-3#logsV2:log-groups/log-group)
+Ouvrez les fichiers log et inspectez leur contenu
+
+Pour netoyer l'environnement:
 
 ```
-aws lambda invoke
+./cleanup.sh
 ```
 
