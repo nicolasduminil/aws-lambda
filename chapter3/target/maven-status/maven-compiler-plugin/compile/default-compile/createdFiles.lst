@@ -1,1 +1,7 @@
+fr/simplex_software/aws/lambda/functions/serializers/ZonedDateSerializer.class
+fr/simplex_software/aws/lambda/functions/serializers/ZonedDateDeserializer.class
+fr/simplex_software/aws/lambda/functions/Chapter3PojoFunction.class
+fr/simplex_software/aws/lambda/functions/pojo/BookPojo.class
+fr/simplex_software/aws/lambda/functions/Chapter3PojoListFunction.class
 fr/simplex_software/aws/lambda/functions/Chapter3Function.class
+fr/simplex_software/aws/lambda/functions/Chapter3StreamFunction.class
