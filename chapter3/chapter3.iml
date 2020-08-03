@@ -14,7 +14,6 @@
     <orderEntry type="library" name="Maven: jakarta.json.bind:jakarta.json.bind-api:1.0.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.eclipse:yasson:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.12" level="project" />
-    <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.1.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.glassfish:jakarta.json:1.1.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.1" level="project" />
