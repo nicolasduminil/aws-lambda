@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Chapter 4 samples
+Parameters:
+  s3-bucket:
+    Type: String
+    Description: The name of the S3 bucket in which the OpanAPI specification is stored
+Resources:
+  SendMoneyRestAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name:
+        send-money-api
+      StageName:
+        dev
+      DefinitionBody:
+        Transform:
+          Name: AWS::Include
+          Parameters:
+            Location:
+              Join:
+               - ''
+                - - 's3://'
+                  - Ref: s3-bucket
+                  - '/openapi.yaml'
+  GetMoneyTransferOrdersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetMoneyTransferOrdersFunction
+      CodeUri: functions/target/chapter4.jar
+      Handler: fr.simplex_software.aws.lambda.functions.GetMoneyTransferOrders:handlerRequest
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 10
+      Tracing: Active
+      Events:
+        Get:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: SendMoneyRestAPI
+            Path: /orders
+            Method: GET
+  GetMoneyTransferOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetMoneyTransferOrderFunction
+      CodeUri: functions/target/chapter4.jar
+      Handler: fr.simplex_software.aws.lambda.functions.GetMoneyTransferOrder:handlerRequest
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 10
+      Tracing: Active
+          Events:
+            Get:
+              Type: Api
+              Properties:
+                RestApiId:
+                  Ref: SendMoneyRestAPI
+                Path: /orders
+                Method: GET
+  CreateMoneyTransferOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        CreateMoneyTransferOrderFunction
+      CodeUri: functions/target/chapter4.jar
+      Handler: fr.simplex_software.aws.lambda.functions.CreateMoneyTransferOrder:handlerRequest
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 10
+      Tracing: Active
+          Events:
+            Get:
+              Type: Api
+              Properties:
+                RestApiId:
+                  Ref: SendMoneyRestAPI
+                Path: /orders
+                Method: GET
+  UpdateMoneyTransferOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        UpdateMoneyTransferOrderFunction
+      CodeUri: functions/target/chapter4.jar
+      Handler: fr.simplex_software.aws.lambda.functions.UpdateMoneyTransferOrder:handlerRequest
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 10
+      Tracing: Active
+          Events:
+            Get:
+              Type: Api
+              Properties:
+                RestApiId:
+                  Ref: SendMoneyRestAPI
+                Path: /orders
+                Method: GET
+  RemoveMoneyTransferOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        RemoveMoneyTransferOrderFunction
+      CodeUri: functions/target/chapter4.jar
+      Handler: fr.simplex_software.aws.lambda.functions.RemoveMoneyTransferOrder:handlerRequest
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 10
+      Tracing: Active
+      Events:
+        Get:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: SendMoneyRestAPI
+            Path: /orders
+            Method: GET
