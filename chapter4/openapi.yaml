@@ -8,11 +8,6 @@ info:
 servers:
 - url: https://virtserver.swaggerhub.com/simplex-software/send-money/1.0.0
   description: SwaggerHub API Auto Mocking
-tags:
-- name: admins
-  description: Secured Admin-only calls
-- name: developers
-  description: Operations available to regular developers
 paths:
   /orders:
     get:
@@ -57,7 +52,8 @@ paths:
                 $ref: '#/components/schemas/response500'
       x-amazon-apigateway-integration:
         uri:
-          Fn::Sub: ${AWS::StackName}-${AWS:AccountId}-${AWS::Region}/functions/GetMoneyTransferOrdersFunction
+#          Fn::Sub: ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}/functions/GetMoneyTransferOrdersFunction
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetMoneyTransferOrdersFunction.Arn}/invocations
         responses:
           default:
             statusCode: "200"
@@ -90,7 +86,7 @@ paths:
                 $ref: '#/components/schemas/response500'
       x-amazon-apigateway-integration:
         uri:
-          Fn::Sub: ${AWS::StackName}-${AWS:AccountId}-${AWS::Region}/functions/UpdateMoneyTransferOrderFunction
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateMoneyTransferOrderFunction.Arn}/invocations
         responses:
           default:
             statusCode: "200"
@@ -123,7 +119,7 @@ paths:
                 $ref: '#/components/schemas/response500'
       x-amazon-apigateway-integration:
         uri:
-          Fn::Sub: ${AWS::StackName}-${AWS:AccountId}-${AWS::Region}/functions/CreateMoneyTransferOrderFunction
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateMoneyTransferOrderFunction.Arn}/invocations
         responses:
           default:
             statusCode: "200"
@@ -163,7 +159,7 @@ paths:
                 $ref: '#/components/schemas/response500'
       x-amazon-apigateway-integration:
         uri:
-          Fn::Sub: ${AWS::StackName}-${AWS:AccountId}-${AWS::Region}/functions/GetMoneyTransferOrderFunction
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetMoneyTransferOrderFunction.Arn}/invocations
         responses:
           default:
             statusCode: "200"
@@ -198,7 +194,7 @@ paths:
                 $ref: '#/components/schemas/response500'
       x-amazon-apigateway-integration:
         uri:
-          Fn::Sub: ${AWS::StackName}-${AWS:AccountId}-${AWS::Region}/functions/RemoveMoneyTransferOrderFunction
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RemoveMoneyTransferOrderFunction.Arn}/invocations
         responses:
           default:
             statusCode: "200"
