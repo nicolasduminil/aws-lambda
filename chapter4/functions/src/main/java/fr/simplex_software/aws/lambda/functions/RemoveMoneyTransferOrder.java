@@ -3,18 +3,18 @@ package fr.simplex_software.aws.lambda.functions;
 import com.amazonaws.services.lambda.runtime.*;
 import com.amazonaws.services.lambda.runtime.events.*;
 
-public class RemoveMoneyTransferOrder implements RequestHandler <APIGatewayV2WebSocketEvent, APIGatewayV2WebSocketResponse>
+public class RemoveMoneyTransferOrder implements RequestHandler <APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>
 {
   @Override
-  public APIGatewayV2WebSocketResponse handleRequest(APIGatewayV2WebSocketEvent apiGatewayV2WebSocketEvent, Context context)
+  public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent, Context context)
   {
     LambdaLogger logger = context.getLogger();
-    logger.log("### We got an HTTP body: " + apiGatewayV2WebSocketEvent.getBody());
-    logger.log("### We got a PATH: " + apiGatewayV2WebSocketEvent.getPath());
-    logger.log("### We got an HTTP method: " + apiGatewayV2WebSocketEvent.getHttpMethod());
-    logger.log("### We got a resource: " + apiGatewayV2WebSocketEvent.getResource());
-    APIGatewayV2WebSocketResponse apiGatewayV2WebSocketResponse = new APIGatewayV2WebSocketResponse();
-    apiGatewayV2WebSocketResponse.setStatusCode(200);
-    return apiGatewayV2WebSocketResponse;
+    logger.log("### We got an HTTP body: " + apiGatewayProxyRequestEvent.getBody());
+    logger.log("### We got a PATH: " + apiGatewayProxyRequestEvent.getPath());
+    logger.log("### We got an HTTP method: " + apiGatewayProxyRequestEvent.getHttpMethod());
+    logger.log("### We got a resource: " + apiGatewayProxyRequestEvent.getResource());
+    APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent = new APIGatewayProxyResponseEvent();
+    apiGatewayProxyResponseEvent.setStatusCode(200);
+    return apiGatewayProxyResponseEvent;
   }
 }

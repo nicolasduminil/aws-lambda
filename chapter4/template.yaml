@@ -102,4 +102,45 @@ Resources:
               Ref: SendMoneyRestAPI
             Path: /orders
             Method: GET
-
+  # Current workaround needed if you want to use the APIGW Console Test button
+  # See https://github.com/awslabs/serverless-application-model/issues/59#issuecomment-348709355
+  ConfigLambdaPermissionForGetMoneyTransferOrdersFunction:
+    Type: "AWS::Lambda::Permission"
+    DependsOn:
+      - SendMoneyRestAPI
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref GetMoneyTransferOrdersFunction
+      Principal: apigateway.amazonaws.com
+  ConfigLambdaPermissionForGetMoneyTransferOrderFunction:
+    Type: "AWS::Lambda::Permission"
+    DependsOn:
+      - SendMoneyRestAPI
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref GetMoneyTransferOrderFunction
+      Principal: apigateway.amazonaws.com
+  ConfigLambdaPermissionForCreateMoneyTransferOrderFunction:
+    Type: "AWS::Lambda::Permission"
+    DependsOn:
+      - SendMoneyRestAPI
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref CreateMoneyTransferOrderFunction
+      Principal: apigateway.amazonaws.com
+  ConfigLambdaPermissionForUpdateMoneyTransferOrderFunction:
+    Type: "AWS::Lambda::Permission"
+    DependsOn:
+      - SendMoneyRestAPI
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref UpdateMoneyTransferOrderFunction
+      Principal: apigateway.amazonaws.com
+  ConfigLambdaPermissionForRemoveMoneyTransferOrderFunction:
+    Type: "AWS::Lambda::Permission"
+    DependsOn:
+      - SendMoneyRestAPI
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref RemoveMoneyTransferOrderFunction
+      Principal: apigateway.amazonaws.com

@@ -52,7 +52,6 @@ paths:
                 $ref: '#/components/schemas/response500'
       x-amazon-apigateway-integration:
         uri:
-#          Fn::Sub: ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}/functions/GetMoneyTransferOrdersFunction
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetMoneyTransferOrdersFunction.Arn}/invocations
         responses:
           default:
