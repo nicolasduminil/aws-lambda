@@ -283,13 +283,6 @@ components:
       properties:
         message:
           type: string
-  #responses:
-    #"400Error":
-      #description: Invalid request
-      #content:
-        #application/json:
-          #schema:
-            #$ref: '#/components/schemas/response400'
   parameters:
     PageLimit:
       name: limit
