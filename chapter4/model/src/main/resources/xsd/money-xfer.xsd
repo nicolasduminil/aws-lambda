@@ -55,7 +55,7 @@
 
   <complexType name="MoneyTransfers">
     <sequence>
-      <element name="moneyTransfer" type="ss:MoneyTransfer" maxOccurs="unbounded" minOccurs="1"></element>
+      <element name="moneyTransfer" type="ss:MoneyTransfer" maxOccurs="unbounded" minOccurs="1"/>
     </sequence>
   </complexType>
 
