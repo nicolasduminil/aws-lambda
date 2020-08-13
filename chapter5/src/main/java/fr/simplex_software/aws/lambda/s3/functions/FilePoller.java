@@ -6,22 +6,22 @@ import com.amazonaws.services.lambda.runtime.events.models.s3.*;
 import com.amazonaws.services.s3.*;
 import com.amazonaws.services.s3.model.*;
 import fr.simplex_software.eip.money_transfer.jaxb.*;
+import org.eclipse.microprofile.config.inject.*;
 import org.jboss.resteasy.client.jaxrs.*;
 import org.jboss.resteasy.client.jaxrs.engines.*;
 import org.jboss.resteasy.client.jaxrs.internal.*;
 
+import javax.inject.*;
 import javax.ws.rs.client.*;
 import javax.xml.bind.*;
+import java.util.*;
 
 public class FilePoller implements RequestHandler<S3Event, Result>
 {
-  //
-  // Please modify this url in order to reflect your environment
-  //
-  private final static String API_URL = "https://dmqyjkjrvd.execute-api.eu-west-3.amazonaws.com/dev/orders";
+  private String API_URL = ResourceBundle.getBundle("aws-lambda").getString("api-url");
   private final static AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
   private final static ResteasyClient client =  new ResteasyClientBuilderImpl().httpEngine(new URLConnectionEngine()).build();
-  private final static WebTarget webTarget = client.target(API_URL);
+  private final WebTarget webTarget = client.target(API_URL);
 
   public Result handleRequest(S3Event s3Event, Context context)
   {
