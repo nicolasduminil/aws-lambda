@@ -6,12 +6,10 @@ import com.amazonaws.services.lambda.runtime.events.models.s3.*;
 import com.amazonaws.services.s3.*;
 import com.amazonaws.services.s3.model.*;
 import fr.simplex_software.eip.money_transfer.jaxb.*;
-import org.eclipse.microprofile.config.inject.*;
 import org.jboss.resteasy.client.jaxrs.*;
 import org.jboss.resteasy.client.jaxrs.engines.*;
 import org.jboss.resteasy.client.jaxrs.internal.*;
 
-import javax.inject.*;
 import javax.ws.rs.client.*;
 import javax.xml.bind.*;
 import java.util.*;
