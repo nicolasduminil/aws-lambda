@@ -19,7 +19,8 @@ public class FilePoller implements RequestHandler<S3Event, Result>
   private String API_URL = ResourceBundle.getBundle("aws-lambda").getString("api-url");
   private final static AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
   private final static ResteasyClient client =  new ResteasyClientBuilderImpl().httpEngine(new URLConnectionEngine()).build();
-  private final WebTarget webTarget = client.target(API_URL);
+  private final WebTarget webTarget = new ResteasyClientBuilderImpl().httpEngine(new URLConnectionEngine()).build().target(API_URL);
+
 
   public Result handleRequest(S3Event s3Event, Context context)
   {
