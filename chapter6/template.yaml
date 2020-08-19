@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-Description: Chapter 4 samples
+Description: Chapter 6 samples
 Globals:
   Function:
     Runtime: java11
@@ -18,32 +18,6 @@ Resources:
       QueueName: send-money-queue
       DelaySeconds: 0
       VisibilityTimeout: 120
-  #LambdaExecutionRole:
-    #Type: AWS::IAM::Role
-    #Properties:
-      #AssumeRolePolicyDocument:
-        #Version: '2012-10-17'
-        #Statement:
-          #- Effect: Allow
-            #Principal:
-              #Service:
-                #- lambda.amazonaws.com
-            #Action:
-              #- sts:AssumeRole
-      #Policies:
-        #- PolicyName: allowSqs
-          #PolicyDocument:
-            #Version: '2012-10-17'
-            #Statement:
-              #- Effect: Allow
-                #Action:
-                  #- sqs:SendMessage
-                  #- sqs:ReceiveMessage
-                  #- sqs:DeleteMessage
-                  #- sqs:GetQueueAttributes
-                  #- sqs:ChangeMessageVisibility
-                  #- xray:PutTraceSegments
-                #Resource: !GetAtt SendMoneyQueue.Arn
   SendMoneyRestAPI:
     Type: AWS::Serverless::Api
     Properties:
@@ -96,7 +70,6 @@ Resources:
         CreateMoneyTransferOrderFunction
       CodeUri: functions/target/chapter6.jar
       Handler: fr.simplex_software.aws.lambda.functions.CreateMoneyTransferOrder::handleRequest
-      #Role: !GetAtt LambdaExecutionRole.Arn
       Policies: AmazonSQSFullAccess
       Events:
         Get:
@@ -178,3 +151,8 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !Ref RemoveMoneyTransferOrderFunction
       Principal: apigateway.amazonaws.com
+Outputs:
+  ExportSendMoneyQueueReference:
+    Value: !GetAtt SendMoneyQueue.Arn
+    Export:
+      Name: exp-send-money-queue

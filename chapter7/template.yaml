@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Chapter 7 samples
+Globals:
+  Function:
+    Runtime: java11
+    MemorySize: 512
+    Timeout: 10
+    Tracing: Active
+Resources:
+  SendMoneyQueueFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        SendMoneyQueueFunction
+      CodeUri: target/chapter7.jar
+      Handler: fr.simplex_software.aws.lambda.functions.SendMoneyMessageConsumer::handleRequest
+      Events:
+        SendMoneySQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !ImportValue exp-send-money-queue
+            BatchSize: 10
