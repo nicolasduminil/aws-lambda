@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.*;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.lambda.runtime.*;
 import com.amazonaws.services.lambda.runtime.events.*;
+import com.amazonaws.services.s3.model.*;
 import fr.simplex_software.aws.lambda.items.*;
 import fr.simplex_software.eip.money_transfer.jaxb.*;
 

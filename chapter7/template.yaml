@@ -15,9 +15,25 @@ Resources:
         SendMoneyQueueFunction
       CodeUri: target/chapter7.jar
       Handler: fr.simplex_software.aws.lambda.functions.SendMoneyMessageConsumer::handleRequest
+      Policies: AmazonDynamoDBFullAccess
       Events:
         SendMoneySQSEvent:
           Type: SQS
           Properties:
             Queue: !ImportValue exp-send-money-queue
             BatchSize: 10
+  MoneyTransferOrders:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MoneyTransferOrders
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
