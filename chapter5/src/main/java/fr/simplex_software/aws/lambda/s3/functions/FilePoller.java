@@ -16,11 +16,20 @@ import java.util.*;
 
 public class FilePoller implements RequestHandler<S3Event, Result>
 {
-  private String API_URL = ResourceBundle.getBundle("aws-lambda").getString("api-url");
-  private final static AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
+  private final String API_URL = ResourceBundle.getBundle("aws-lambda").getString("api-url");
+  private final AmazonS3 s3;
   private final static ResteasyClient client =  new ResteasyClientBuilderImpl().httpEngine(new URLConnectionEngine()).build();
   private final WebTarget webTarget = new ResteasyClientBuilderImpl().httpEngine(new URLConnectionEngine()).build().target(API_URL);
 
+  public FilePoller()
+  {
+    s3 = AmazonS3ClientBuilder.defaultClient();
+  }
+
+  public FilePoller (AmazonS3 s3)
+  {
+    this.s3 = s3;
+  }
 
   public Result handleRequest(S3Event s3Event, Context context)
   {

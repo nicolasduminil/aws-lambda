@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<moneyTransfers xmlns="http://www.simplex-software.fr/money-transfer">
+    <moneyTransfer>
+        <reference>refernce123</reference>
+        <sourceAccount accountID="source-bank-account-id" accountType="CHECKING" sortCode="source-bank-account-sort-code" accountNumber="source-bank-account-number" transCode="source-bank-account-trans-code">
+            <bank bankName="source-account-bank-name">
+                <bankAddresses streetName="source-account-bank-street-name" poBox="source-account-bank-po-box" cityName="source-account-bank-city-name" zipCode="source-account-bank-zip-code" countryName="source-account-bank-country-name"/>
+            </bank>
+        </sourceAccount>
+        <targetAccount accountID="source-bank-account-id" accountType="CHECKING" sortCode="source-bank-account-sort-code" accountNumber="source-bank-account-number" transCode="source-bank-account-trans-code">
+            <bank bankName="source-account-bank-name">
+                <bankAddresses streetName="source-account-bank-street-name" poBox="source-account-bank-po-box" cityName="source-account-bank-city-name" zipCode="source-account-bank-zip-code" countryName="source-account-bank-country-name"/>
+            </bank>
+        </targetAccount>
+        <amount>1000.00</amount>
+    </moneyTransfer>
+</moneyTransfers>

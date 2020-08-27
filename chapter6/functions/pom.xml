@@ -24,11 +24,21 @@
       <artifactId>aws-java-sdk-sqs</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>fr.simplex-software.aws.lambda</groupId>
       <artifactId>model</artifactId>
     </dependency>
+    <dependency>
+      <groupId>fr.simplex-software.aws.lambda</groupId>
+      <artifactId>common</artifactId>
+    </dependency>
   </dependencies>
   <build>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>

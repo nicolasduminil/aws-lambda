@@ -78,7 +78,7 @@ Resources:
             RestApiId:
               Ref: SendMoneyRestAPI
             Path: /orders
-            Method: GET
+            Method: POST
   UpdateMoneyTransferOrderFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -93,7 +93,7 @@ Resources:
             RestApiId:
               Ref: SendMoneyRestAPI
             Path: /orders
-            Method: GET
+            Method: PUT
   RemoveMoneyTransferOrderFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -108,7 +108,7 @@ Resources:
             RestApiId:
               Ref: SendMoneyRestAPI
             Path: /orders
-            Method: GET
+            Method: DELETE
   # Current workaround needed if you want to use the APIGW Console Test button
   # See https://github.com/awslabs/serverless-application-model/issues/59#issuecomment-348709355
   ConfigLambdaPermissionForGetMoneyTransferOrdersFunction:
