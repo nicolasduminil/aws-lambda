@@ -131,7 +131,7 @@
               </execution>
             </executions>
             <configuration>
-              <executable>deploy.sh</executable>
+              <executable>deploy-all.sh</executable>
             </configuration>
           </plugin>
         </plugins>
