@@ -23,10 +23,6 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
-    <!--dependency>
-      <groupId>fr.simplex-software.aws.lambda</groupId>
-      <artifactId>common</artifactId>
-    </dependency-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
