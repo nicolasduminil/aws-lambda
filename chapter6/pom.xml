@@ -63,6 +63,21 @@
         <version>2.7</version>
       </dependency>
       <dependency>
+        <groupId>com.okta.jwt</groupId>
+        <artifactId>okta-jwt-verifier</artifactId>
+        <version>0.4.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.okta.jwt</groupId>
+        <artifactId>okta-jwt-verifier-impl</artifactId>
+        <version>0.4.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.12</version>
+      </dependency>
+      <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <version>5.6.2</version>

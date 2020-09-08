@@ -1,7 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Description: Chapter 5 Sample
-
 Globals:
   Function:
     Runtime: java11
@@ -19,7 +18,8 @@ Resources:
   FilePollerFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: FilePollerFunction
+      FunctionName:
+        FilePollerFunction
       CodeUri: target/chapter5.jar
       Handler: fr.simplex_software.aws.lambda.s3.functions.FilePoller::handleRequest
       Policies:

@@ -15,6 +15,7 @@ public class GetMoneyTransferOrders implements RequestHandler <APIGatewayProxyRe
     logger.log("### We got a resource: " + apiGatewayProxyRequestEvent.getResource());
     APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent = new APIGatewayProxyResponseEvent();
     apiGatewayProxyResponseEvent.setStatusCode(200);
+    apiGatewayProxyResponseEvent.setBody("OK");
     return apiGatewayProxyResponseEvent;
   }
 }

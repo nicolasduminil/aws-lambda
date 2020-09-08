@@ -6,11 +6,16 @@ Globals:
     Runtime: java11
     MemorySize: 512
     Timeout: 10
-    Tracing: Active
+    #Tracing: Active
 Parameters:
   BucketName:
     Type: String
     Description: The name of the S3 bucket in which the OpenAPI specification is stored
+  #RoleArn:
+    #Type: String
+    #Description: The ARN of the IAM role to be used with Lambda functions
+  Email:
+    Type: String
 Resources:
   SendMoneyQueue:
     Type: AWS::SQS::Queue
@@ -18,6 +23,38 @@ Resources:
       QueueName: send-money-queue
       DelaySeconds: 0
       VisibilityTimeout: 120
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      UserPoolName: Chapter9Users
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 6
+          RequireLowercase: true
+          RequireNumbers: false
+          RequireSymbols: false
+          RequireUppercase: true
+      UsernameAttributes:
+        - email
+      AutoVerifiedAttributes:
+        - email
+  CognitoUser:
+    Type: AWS::Cognito::UserPoolUser
+    Properties:
+      DesiredDeliveryMediums:
+        - EMAIL
+      Username: !Ref Email
+      UserPoolId: !Ref CognitoUserPool
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref CognitoUserPool
+      ClientName: Chapter9UserPoolClient
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - USER_PASSWORD_AUTH
   SendMoneyRestAPI:
     Type: AWS::Serverless::Api
     Properties:
@@ -35,6 +72,11 @@ Resources:
                 - - 's3://'
                   - Ref: BucketName
                   - '/openapi.yaml'
+      Cors: "'*'"
+      Auth:
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !GetAtt CognitoUserPool.Arn
   GetMoneyTransferOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -49,6 +91,8 @@ Resources:
               Ref: SendMoneyRestAPI
             Path: /orders
             Method: GET
+            Auth:
+              Authorizer: CognitoAuthorizer
   GetMoneyTransferOrderFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -71,6 +115,7 @@ Resources:
       CodeUri: functions/target/chapter6.jar
       Handler: fr.simplex_software.aws.lambda.functions.CreateMoneyTransferOrder::handleRequest
       Policies: AmazonSQSFullAccess
+      #Role: !Ref RoleArn
       Events:
         Get:
           Type: Api
@@ -79,6 +124,8 @@ Resources:
               Ref: SendMoneyRestAPI
             Path: /orders
             Method: POST
+            Auth:
+              Authorizer: CognitoAuthorizer
   UpdateMoneyTransferOrderFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -94,6 +141,8 @@ Resources:
               Ref: SendMoneyRestAPI
             Path: /orders
             Method: PUT
+            Auth:
+              Authorizer: CognitoAuthorizer
   RemoveMoneyTransferOrderFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -109,50 +158,27 @@ Resources:
               Ref: SendMoneyRestAPI
             Path: /orders
             Method: DELETE
-  # Current workaround needed if you want to use the APIGW Console Test button
-  # See https://github.com/awslabs/serverless-application-model/issues/59#issuecomment-348709355
-  ConfigLambdaPermissionForGetMoneyTransferOrdersFunction:
-    Type: "AWS::Lambda::Permission"
-    DependsOn:
-      - SendMoneyRestAPI
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref GetMoneyTransferOrdersFunction
-      Principal: apigateway.amazonaws.com
-  ConfigLambdaPermissionForGetMoneyTransferOrderFunction:
-    Type: "AWS::Lambda::Permission"
-    DependsOn:
-      - SendMoneyRestAPI
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref GetMoneyTransferOrderFunction
-      Principal: apigateway.amazonaws.com
-  ConfigLambdaPermissionForCreateMoneyTransferOrderFunction:
-    Type: "AWS::Lambda::Permission"
-    DependsOn:
-      - SendMoneyRestAPI
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref CreateMoneyTransferOrderFunction
-      Principal: apigateway.amazonaws.com
-  ConfigLambdaPermissionForUpdateMoneyTransferOrderFunction:
-    Type: "AWS::Lambda::Permission"
-    DependsOn:
-      - SendMoneyRestAPI
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref UpdateMoneyTransferOrderFunction
-      Principal: apigateway.amazonaws.com
-  ConfigLambdaPermissionForRemoveMoneyTransferOrderFunction:
-    Type: "AWS::Lambda::Permission"
-    DependsOn:
-      - SendMoneyRestAPI
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref RemoveMoneyTransferOrderFunction
-      Principal: apigateway.amazonaws.com
+            Auth:
+              Authorizer: CognitoAuthorizer
 Outputs:
   ExportSendMoneyQueueReference:
     Value: !GetAtt SendMoneyQueue.Arn
     Export:
       Name: exp-send-money-queue
+  ExportBucketNameReference:
+    Value: !Ref BucketName
+    Export:
+      Name: exp-send-money-bucket
+  ExportSendMoneyRestAPIReference:
+    Value: !Sub "https://${SendMoneyRestAPI}.execute-api.${AWS::Region}.amazonaws.com"
+    Export:
+      Name: exp-send-money-rest-api
+  CognitoID:
+    Description: The Cognito UserPool ID
+    Value: !Ref CognitoUserPool
+  CognitoClientID:
+    Description: The Cognito UserPool Client ID
+    Value: !Ref CognitoUserPoolClient
+  ApiUrl:
+    Description: The API URL
+    Value: !Sub "https://${SendMoneyRestAPI}.execute-api.${AWS::Region}.amazonaws.com"
