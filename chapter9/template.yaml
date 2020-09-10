@@ -8,44 +8,10 @@ Globals:
     Timeout: 10
     Tracing: Active
 Parameters:
-  Email:
-    Type: String
   Version:
     Type: String
     Default: v1
 Resources:
-  CognitoUserPool:
-    Type: AWS::Cognito::UserPool
-    Properties:
-      AdminCreateUserConfig:
-        AllowAdminCreateUserOnly: false
-      UserPoolName: CognitoUserPool
-      Policies:
-        PasswordPolicy:
-          MinimumLength: 6
-          RequireLowercase: true
-          RequireNumbers: false
-          RequireSymbols: false
-          RequireUppercase: true
-      UsernameAttributes:
-        - email
-      AutoVerifiedAttributes:
-        - email
-  CognitoUser:
-    Type: AWS::Cognito::UserPoolUser
-    Properties:
-      DesiredDeliveryMediums:
-        - EMAIL
-      Username: !Ref Email
-      UserPoolId: !Ref CognitoUserPool
-  CognitoUserPoolClient:
-    Type: AWS::Cognito::UserPoolClient
-    Properties:
-      UserPoolId: !Ref CognitoUserPool
-      ClientName: CognitoUserPoolClient
-      GenerateSecret: false
-      ExplicitAuthFlows:
-        - USER_PASSWORD_AUTH
   ServiceApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -55,10 +21,6 @@ Resources:
         AllowMethods: "'*'"
         AllowHeaders: "'*'"
         AllowOrigin: "'*'"
-      Auth:
-        Authorizers:
-          CognitoAuthorizer:
-            UserPoolArn: !GetAtt "CognitoUserPool.Arn"
   SecureLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -66,7 +28,6 @@ Resources:
       Description: Requires authentication to handle request
       Handler: fr.simplex_software.aws.lambda.cognito.functions.SecureLambdaFunction::handleRequest
       CodeUri: target/chapter9.jar
-      # Policies:
       Events:
         Get:
           Type: Api
@@ -75,7 +36,13 @@ Resources:
             RestApiId: !Ref ServiceApi
             Method: GET
             Auth:
-              Authorizer: CognitoAuthorizer
+              ResourcePolicy:
+                CustomStatements: [{
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": "execute-api:Invoke",
+                  "Resource": "execute-api:/*/GET/secure",
+                }]
   OpenLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -90,13 +57,15 @@ Resources:
             Path: /open
             RestApiId: !Ref ServiceApi
             Method: GET
+            Auth:
+              ResourcePolicy:
+                CustomStatements: [{
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": "execute-api:Invoke",
+                  "Resource": "execute-api:/*/GET/*",
+                }]
 Outputs:
-  CognitoID:
-    Description: The Cognito UserPool ID
-    Value: !Ref CognitoUserPool
-  CognitoClientID:
-    Description: The Cognito UserPool Client ID
-    Value: !Ref CognitoUserPoolClient
   ApiUrl:
     Description: The API URL
     Value: !Sub "https://${ServiceApi}.execute-api.${AWS::Region}.amazonaws.com/${Version}"
