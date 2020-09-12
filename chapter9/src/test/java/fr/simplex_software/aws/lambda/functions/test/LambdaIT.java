@@ -1,4 +1,4 @@
-package fr.simplex_software.aws.lambda.cognito.functions.test;
+package fr.simplex_software.aws.lambda.functions.test;
 
 import org.jboss.resteasy.client.jaxrs.engines.*;
 import org.jboss.resteasy.client.jaxrs.internal.*;

@@ -44,17 +44,16 @@
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-client</artifactId>
-      <version>4.4.1.Final</version>
-      <!--exclusions>
-        <exclusion>
-          <groupId>org.jboss.spec.javax.xml.bind</groupId>
-          <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sun.activation</groupId>
-          <artifactId>jakarta.activation</artifactId>
-        </exclusion>
-      </exclusions-->
+    </dependency>
+    <dependency>
+      <groupId>com.okta.jwt</groupId>
+      <artifactId>okta-jwt-verifier</artifactId>
+      <version>0.4.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.okta.jwt</groupId>
+      <artifactId>okta-jwt-verifier-impl</artifactId>
+      <version>0.4.1</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

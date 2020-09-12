@@ -21,12 +21,18 @@ Resources:
         AllowMethods: "'*'"
         AllowHeaders: "'*'"
         AllowOrigin: "'*'"
+  AuthorizerLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: AuthorizerLambdaFunction
+      Handler: fr.simplex_software.aws.lambda.security.LambdaAuthorizer::handleRequest
+      CodeUri: target/chapter9.jar
   SecureLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: SecureLambdaFunction
       Description: Requires authentication to handle request
-      Handler: fr.simplex_software.aws.lambda.cognito.functions.SecureLambdaFunction::handleRequest
+      Handler: fr.simplex_software.aws.lambda.functions.SecureLambdaFunction::handleRequest
       CodeUri: target/chapter9.jar
       Events:
         Get:
@@ -36,19 +42,18 @@ Resources:
             RestApiId: !Ref ServiceApi
             Method: GET
             Auth:
-              ResourcePolicy:
-                CustomStatements: [{
-                  "Effect": "Allow",
-                  "Principal": "*",
-                  "Action": "execute-api:Invoke",
-                  "Resource": "execute-api:/*/GET/secure",
-                }]
+              Authorizers:
+                LambdaAuthorizer:
+                  FunctionArn:
+                    Fn::GetAtt:
+                      - AuthorizerLambdaFunction
+                      - Arn
   OpenLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: OpenLambdaFunction
       Description: Handles the request with no need for authentication
-      Handler: fr.simplex_software.aws.lambda.cognito.functions.OpenLambdaFunction::handleRequest
+      Handler: fr.simplex_software.aws.lambda.functions.OpenLambdaFunction::handleRequest
       CodeUri: target/chapter9.jar
       Events:
         Get:
@@ -57,14 +62,6 @@ Resources:
             Path: /open
             RestApiId: !Ref ServiceApi
             Method: GET
-            Auth:
-              ResourcePolicy:
-                CustomStatements: [{
-                  "Effect": "Allow",
-                  "Principal": "*",
-                  "Action": "execute-api:Invoke",
-                  "Resource": "execute-api:/*/GET/*",
-                }]
 Outputs:
   ApiUrl:
     Description: The API URL
