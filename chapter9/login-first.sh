@@ -27,3 +27,4 @@ AUTH_TOKEN=`aws cognito-idp admin-respond-to-auth-challenge \
 --query "AuthenticationResult.IdToken" \
 --output text`
 echo "token=$AUTH_TOKEN" > src/test/resources/aws-lambda-token.properties
+echo "Your password has been changed to Testing1. Your JWT is $AUTH_TOKEN"
