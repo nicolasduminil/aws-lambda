@@ -39,7 +39,7 @@ Resources:
               ResourcePolicy:
                 CustomStatements: [{
                   "Effect": "Allow",
-                  "Principal": "*",
+                  "Principal": { "AWS": "arn:aws:iam::459436678662:user/seymourglass" },
                   "Action": "execute-api:Invoke",
                   "Resource": "execute-api:/*/GET/secure",
                 }]
