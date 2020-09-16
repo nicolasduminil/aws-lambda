@@ -6,11 +6,21 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/hello")
-public class GreetingResource {
+public class GreetingResource
+{
+  @ConfigProperty(name = "greeting.message")
+  private String message;
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "hello jaxrs";
-    }
+  @ConfigProperty(name = "greeting.suffix", defaultValue = "!")
+  privateString suffix;
+
+  @ConfigProperty(name = "greeting.name")
+  private Optional<String> name;
+
+  @GET
+  @Produces(MediaType.TEXT_PLAIN)
+  public String hello()
+  {
+    return message + " " + name.orElse("world") + suffix;
+  }
 }
