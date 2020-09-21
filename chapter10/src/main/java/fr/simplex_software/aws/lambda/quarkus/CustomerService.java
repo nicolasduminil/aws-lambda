@@ -1,12 +1,10 @@
 package fr.simplex_software.aws.lambda.quarkus;
 
 import lombok.extern.slf4j.*;
-import org.eclipse.microprofile.faulttolerance.*;
 
 import javax.enterprise.context.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.*;
 import java.util.stream.*;
 
 @ApplicationScoped
@@ -14,7 +12,6 @@ import java.util.stream.*;
 public class CustomerService
 {
   private Map<Integer, Customer> customers = new ConcurrentHashMap<>();
-  private AtomicLong counter = new AtomicLong(0);
 
   public CustomerService()
   {
@@ -29,16 +26,8 @@ public class CustomerService
     return new ArrayList<>(customers.values());
   }
 
-  @CircuitBreaker(requestVolumeThreshold = 4)
   public Customer getCustomerById(Integer id)
   {
-    final Long invocationNumber = counter.getAndIncrement();
-    if (invocationNumber % 4 > 1)
-    {
-      log.error("### Invocation {} failing", invocationNumber);
-      throw new RuntimeException("Service failed.");
-    }
-    log.info(">>> Invocation {} OK", invocationNumber);
     return customers.get(id);
   }
 
