@@ -1,19 +1,15 @@
 package fr.simplex_software.aws.lambda.quarkus;
 
-import lombok.extern.slf4j.*;
 import org.eclipse.microprofile.metrics.*;
-import org.eclipse.microprofile.metrics.annotation.*;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.annotation.*;
 
-import javax.annotation.security.*;
-import javax.enterprise.context.*;
 import javax.inject.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.*;
 
 @Path("/customers")
-@RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource
 {
@@ -44,5 +40,13 @@ public class CustomerResource
   public Response getCustomersByLastName(@PathParam("name") String lastName)
   {
     return Response.ok(customerService.getCustomersByLastName(lastName)).build();
+  }
+
+  @Path("/count")
+  @GET
+  @Gauge(unit = MetricUnits.NONE, name = "customersNumberGauge", description = "Number of customers in the inventory")
+  public int getCustomersNumber()
+  {
+    return customerService.getCustomers().size();
   }
 }

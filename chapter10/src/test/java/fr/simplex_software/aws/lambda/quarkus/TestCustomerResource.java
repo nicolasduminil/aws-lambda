@@ -44,6 +44,13 @@ public class TestCustomerResource
     assertMetricValue("fr.simplex_software.aws.lambda.quarkus.CustomerResource.customersCount", 2);
   }
 
+  @Test
+  public void testCustomersNumber()
+  {
+    get("/customers/count").andReturn().then().statusCode(200);
+    assertMetricValue("fr.simplex_software.aws.lambda.quarkus.CustomerResource.customersNumberGauge", 4);
+  }
+
   private void assertMetricValue(String metric, Object value)
   {
     given().header(new Header("Accept", "application/json")).get("/metrics/application").then().statusCode(200).body("'" + metric + "'", is(value));
