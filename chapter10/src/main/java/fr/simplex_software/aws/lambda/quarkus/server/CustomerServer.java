@@ -1,19 +1,19 @@
-package fr.simplex_software.aws.lambda.quarkus;
+package fr.simplex_software.aws.lambda.quarkus.server;
 
-import lombok.extern.slf4j.*;
+import fr.simplex_software.aws.lambda.quarkus.*;
 
-import javax.enterprise.context.*;
+import javax.ws.rs.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.*;
 
-@ApplicationScoped
-@Slf4j
-public class CustomerService
+@Path("/server")
+@Produces("application/json")
+public class CustomerServer
 {
   private Map<Integer, Customer> customers = new ConcurrentHashMap<>();
 
-  public CustomerService()
+  public CustomerServer()
   {
     customers = Map.of(1, new Customer(1, "Robert", "Smith", "8 Villa du Danube", "Paris", "75019", "France"),
       2, new Customer(2, "Jane", "Hopkyns", "10 rue des Petites Ecuries", "Paris", "75010", "France"),
@@ -21,18 +21,23 @@ public class CustomerService
       4, new Customer(4, "Brigitte", "Larivière", "8 rue du Fbg. de St. Honoré", "Paris", "7508", "France"));
   }
 
+  @GET
   public List<Customer> getCustomers()
   {
     return new ArrayList<>(customers.values());
   }
 
-  public Customer getCustomerById(Integer id)
+  @GET
+  @Path("/{id}")
+  public Customer getCustomerById(@PathParam("id") Integer id)
   {
     return customers.get(id);
   }
 
-  public List<Customer> getCustomersByLastName (String lastName)
+  @GET
+  @Path("/customer/{name}")
+  public List<Customer> getCustomerByLastName(@PathParam("name") String name)
   {
-    return customers.values().stream().filter(c -> c.getLastName().equals(lastName)).limit(2).collect(Collectors.toList());
+    return customers.values().stream().filter(c -> c.getLastName().equals(name)).limit(2).collect(Collectors.toList());
   }
 }
