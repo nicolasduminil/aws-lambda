@@ -27,4 +27,16 @@ public class TestCustomerResource
   {
     get("/client").andReturn().then().statusCode(200).body("id", hasItems(1, 2, 3, 4)).body("firstName", hasItems("Robert", "Jane", "Fabienne", "Brigitte"));
   }
+
+  @Test
+  public void testGetCustomersAsync()
+  {
+    get("/client").andReturn().then().statusCode(200).body("id", hasItems(1, 2, 3, 4)).body("firstName", hasItems("Robert", "Jane", "Fabienne", "Brigitte"));
+  }
+
+  @Test
+  public void testGetCustomersAsUni()
+  {
+    get("/client").andReturn().then().statusCode(200).body("id", hasItems(1, 2, 3, 4)).body("firstName", hasItems("Robert", "Jane", "Fabienne", "Brigitte"));
+  }
 }

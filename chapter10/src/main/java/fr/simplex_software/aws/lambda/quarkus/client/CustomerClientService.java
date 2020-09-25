@@ -1,10 +1,12 @@
 package fr.simplex_software.aws.lambda.quarkus.client;
 
 import fr.simplex_software.aws.lambda.quarkus.*;
+import io.smallrye.mutiny.*;
 import org.eclipse.microprofile.rest.client.inject.*;
 
 import javax.ws.rs.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 @Path("/server")
 @RegisterRestClient
@@ -12,11 +14,15 @@ import java.util.*;
 public interface CustomerClientService
 {
   @GET
-  public List<Customer> getCustomers();
+  List<Customer> getCustomers();
   @GET
   @Path("/{id}")
-  public Customer getCustomersById(@PathParam("id") Integer id);
+  Customer getCustomersById(@PathParam("id") Integer id);
   @GET
   @Path("/customer/{name}")
-  public List<Customer> getCustomersByLastName(@PathParam("name") String name);
+  List<Customer> getCustomersByLastName(@PathParam("name") String name);
+  @GET
+  CompletionStage<Set<Customer>> getCustomersAsync();
+  @GET
+  Uni<Set<Customer>> getCustomersAsUni();
 }
